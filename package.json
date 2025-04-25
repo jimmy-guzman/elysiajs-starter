@@ -1,15 +1,43 @@
 {
   "name": "ts-rest-api-starter",
-  "version": "1.0.50",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "dev": "bun run --watch src/index.ts",
+    "format": "biome format",
+    "format:fix": "biome format --write",
+    "postinstall": "lefthook install",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --write",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/cors": "1.2.0",
+    "@elysiajs/swagger": "1.2.2",
+    "@neondatabase/serverless": "1.0.0",
+    "better-auth": "1.2.7",
+    "drizzle-orm": "0.43.1",
+    "elysia": "1.2.25",
+    "env-schema": "6.0.1"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@biomejs/biome": "2.0.0-beta.1",
+    "@electric-sql/pglite": "0.3.0",
+    "@vitest/coverage-v8": "3.1.2",
+    "@vitest/ui": "3.1.2",
+    "bun-types": "1.2.10",
+    "drizzle-kit": "^0.31.0",
+    "gitzy": "5.8.1",
+    "lefthook": "1.11.11",
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "3.1.2"
   },
-  "module": "src/index.js"
+  "packageManager": "bun@1.2.10"
 }

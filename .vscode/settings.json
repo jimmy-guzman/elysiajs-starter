@@ -1,0 +1,25 @@
+{
+  "cSpell.words": [
+    "bunx",
+    "elysia",
+    "elysiajs",
+    "ilike",
+    "lefthook",
+    "neondatabase",
+    "pglite",
+    "tiged"
+  ],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.inlineSuggest.enabled": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
+}
