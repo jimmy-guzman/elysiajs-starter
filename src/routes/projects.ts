@@ -10,7 +10,6 @@ export const projectsRoutes = new Elysia({
   tags: ["Projects"],
 })
   .use(betterAuth)
-
   .get(
     "/",
     async ({ user }) => {

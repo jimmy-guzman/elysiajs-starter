@@ -1,6 +1,6 @@
-# TypeScript REST API Starter
+# ElysiaJS Starter
 
-> 🚀 A TypeScript REST‑API boilerplate powered by **Bun**, **Elysia**, **Drizzle ORM**, and **Neon** – with batteries for auth, environment validation, testing, and DX.
+> 🚀 An API starter with Elysia, Bun, Drizzle ORM, Neon, and built-in auth, environment validation, and testing.
 
 ## 🐣 Features
 

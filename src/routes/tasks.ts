@@ -13,7 +13,6 @@ const statusSchema = t.Union([
 
 export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
   .use(betterAuth)
-
   .get(
     "/",
     async ({ query, user }) => {

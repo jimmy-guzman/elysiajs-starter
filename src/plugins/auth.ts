@@ -11,7 +11,9 @@ export const betterAuth = new Elysia({ name: "better-auth" })
           headers,
         });
 
-        if (!session) return error(401);
+        if (!session) {
+          return error(401);
+        }
 
         return {
           user: session.user,
