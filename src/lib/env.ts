@@ -8,6 +8,8 @@ const schema = t.Object({
   GITHUB_CLIENT_SECRET: t.Optional(t.String()),
   BETTER_AUTH_SECRET: t.String(),
   BETTER_AUTH_URL: t.String(),
+  RESEND_API_KEY: t.String(),
+  RESEND_FROM_EMAIL: t.String(),
 });
 
 type Schema = Static<typeof schema>;
