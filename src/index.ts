@@ -37,4 +37,4 @@ const app = new Elysia()
   .use(healthRoutes)
   .listen(env.PORT);
 
-console.log(`🦊 Elysia is running at ${app.server?.url}`);
+console.log(`🦊 Elysia is running at ${app.server?.url}docs`);
