@@ -4,7 +4,7 @@ export const openapiDocumentation = {
   info: {
     title: "Elysia REST API Starter Reference",
     description:
-      "Official API reference for a minimalist, tag-driven REST API starter built with Elysia, featuring [Better Auth](/auth/docs) for authentication.",
+      "Official API reference for a REST API starter built with Elysia, featuring [Better Auth](/auth/docs) for authentication.",
     version: pkg.version,
   },
   tags: [

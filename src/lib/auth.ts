@@ -1,4 +1,4 @@
-import { betterAuth } from "better-auth";
+import { betterAuth, type Path } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { magicLink, openAPI } from "better-auth/plugins";
 
@@ -45,3 +45,42 @@ export const auth = betterAuth({
     openAPI({ path: "/docs" }),
   ],
 });
+
+export const authOpenAPI = {
+  // biome-ignore lint/suspicious/noExplicitAny: TODO: update with correct types
+  getPaths: async (prefix = "/auth"): Promise<any> => {
+    const { paths } = await auth.api.generateOpenAPISchema();
+    const reference: typeof paths = Object.create(null);
+
+    for (const path of Object.keys(paths)) {
+      const key = prefix + path;
+
+      if (paths[path]) {
+        reference[key] = paths[path];
+
+        for (const method of Object.keys(paths[path])) {
+          const operation = reference[key][method as keyof Path];
+
+          if (operation) {
+            operation.tags = ["Auth"];
+          }
+        }
+      }
+    }
+
+    return reference;
+  },
+  components: auth.api.generateOpenAPISchema().then(({ components }) => ({
+    ...components,
+    securitySchemes: {
+      apiKeyCookie: {
+        ...components.securitySchemes.apiKeyCookie,
+        type: "apiKey" as const,
+      },
+      bearerAuth: {
+        ...components.securitySchemes.bearerAuth,
+        type: "http" as const,
+      },
+    },
+  })),
+} as const;
