@@ -1,10 +1,9 @@
 import { cors } from "@elysiajs/cors";
-import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 
-import { openapiDocumentation } from "./config/openapi";
 import env from "./lib/env";
 import { betterAuth } from "./plugins/auth";
+import { openAPI } from "./plugins/open-api";
 import { healthRoutes } from "./routes/health";
 import { projectsRoutes } from "./routes/projects";
 import { tagsRoutes } from "./routes/tags";
@@ -19,17 +18,7 @@ const app = new Elysia()
       allowedHeaders: ["Content-Type", "Authorization"],
     }),
   )
-  .use(
-    swagger({
-      path: "/docs",
-      documentation: openapiDocumentation,
-      scalarConfig: {
-        theme: "saturn",
-        // https://github.com/elysiajs/elysia-swagger/issues/194#issuecomment-2747490495
-        customCss: "",
-      },
-    }),
-  )
+  .use(openAPI)
   .use(betterAuth)
   .use(projectsRoutes)
   .use(tasksRoutes)
@@ -37,4 +26,4 @@ const app = new Elysia()
   .use(healthRoutes)
   .listen(env.PORT);
 
-console.log(`🦊 Elysia is running at ${app.server?.url}docs`);
+console.log(`🦊 Elysia is running at ${app.server?.url}`);
