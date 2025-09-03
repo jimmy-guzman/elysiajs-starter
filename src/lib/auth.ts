@@ -8,6 +8,9 @@ import { sendEmail } from "./email";
 import env from "./env";
 
 export const auth = betterAuth({
+  telemetry: {
+    enabled: false,
+  },
   basePath: "/auth",
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -70,17 +73,19 @@ export const authOpenAPI = {
 
     return reference;
   },
-  components: auth.api.generateOpenAPISchema().then(({ components }) => ({
-    ...components,
-    securitySchemes: {
-      apiKeyCookie: {
-        ...components.securitySchemes.apiKeyCookie,
-        type: "apiKey" as const,
+  components: auth.api.generateOpenAPISchema().then(({ components }) => {
+    return {
+      ...components,
+      securitySchemes: {
+        apiKeyCookie: {
+          ...components.securitySchemes.apiKeyCookie,
+          type: "apiKey" as const,
+        },
+        bearerAuth: {
+          ...components.securitySchemes.bearerAuth,
+          type: "http" as const,
+        },
       },
-      bearerAuth: {
-        ...components.securitySchemes.bearerAuth,
-        type: "http" as const,
-      },
-    },
-  })),
+    };
+  }),
 } as const;
