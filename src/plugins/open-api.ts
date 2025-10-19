@@ -1,5 +1,6 @@
 import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
+
 import { openapiDocumentation } from "@/config/openapi";
 import { authOpenAPI } from "@/lib/auth";
 

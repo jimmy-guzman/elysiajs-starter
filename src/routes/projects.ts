@@ -59,6 +59,7 @@ export const projectsRoutes = new Elysia({
 
       if (!project || project.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
 
@@ -79,8 +80,10 @@ export const projectsRoutes = new Elysia({
         .select()
         .from(projects)
         .where(eq(projects.id, params.id));
+
       if (!existing || existing.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
 
@@ -116,12 +119,15 @@ export const projectsRoutes = new Elysia({
         .select()
         .from(projects)
         .where(eq(projects.id, params.id));
+
       if (!existing || existing.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
 
       await db.delete(projects).where(eq(projects.id, params.id));
+
       return { success: true };
     },
     {
@@ -139,15 +145,20 @@ export const projectsRoutes = new Elysia({
         .select()
         .from(projects)
         .where(eq(projects.id, params.id));
+
       if (!project || project.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
+
       const values = body.tagIds.map((tagId) => ({
         projectId: params.id,
         tagId,
       }));
+
       await db.insert(projectTags).values(values).onConflictDoNothing();
+
       return { success: true };
     },
     {

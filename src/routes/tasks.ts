@@ -1,9 +1,9 @@
 import { and, eq, isNull } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 
+import { db } from "@/db";
 import { tasks, taskTags } from "@/db/schemas/tasks";
 import { betterAuth } from "@/plugins/auth";
-import { db } from "../db";
 
 const statusSchema = t.Union([
   t.Literal("todo"),
@@ -78,10 +78,13 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
         .select()
         .from(tasks)
         .where(eq(tasks.id, params.id));
+
       if (!task || task.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
+
       return task;
     },
     {
@@ -99,10 +102,13 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
         .select()
         .from(tasks)
         .where(eq(tasks.id, params.id));
+
       if (!existing || existing.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
+
       const [updated] = await db
         .update(tasks)
         .set({
@@ -112,6 +118,7 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
         })
         .where(eq(tasks.id, params.id))
         .returning();
+
       return updated;
     },
     {
@@ -141,6 +148,7 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
 
       if (!existing || existing.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
 
@@ -163,12 +171,17 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
         .select()
         .from(tasks)
         .where(eq(tasks.id, params.id));
+
       if (!task || task.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
+
       const values = body.tagIds.map((tagId) => ({ taskId: params.id, tagId }));
+
       await db.insert(taskTags).values(values).onConflictDoNothing();
+
       return { success: true };
     },
     {
@@ -190,6 +203,7 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
 
       if (!task || task.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
 
@@ -219,6 +233,7 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
 
       if (!parent || parent.ownerId !== user.id) {
         set.status = 404;
+
         return { error: "not_found" };
       }
 
