@@ -34,13 +34,13 @@ export const auth = betterAuth({
         await sendEmail({
           html: `
             <div style="text-align: center; font-family: sans-serif;">
-              <h1>Welcome to ts-rest-api-starter</h1>
+              <h1>Welcome to Elysia Starter</h1>
               <p>Click below to sign in:</p>
               <a href="${url}" style="display: inline-block; margin-top: 12px; padding: 10px 20px; background: black; color: white; text-decoration: none; border-radius: 8px;">Sign in</a>
               <p style="margin-top: 24px; font-size: 12px; color: gray;">If you didn’t request this, you can ignore it.</p>
             </div>
           `,
-          subject: "Your magic ts-rest-api-starter link ✨",
+          subject: "Your magic Elysia Starter link ✨",
           to: email,
         });
       },

@@ -172,7 +172,7 @@ Your application will be available at:
 
 ## 📁 Project Structure
 
-```
+```sh
 ├── src/
 │   ├── config/            #
 │   ├── db/                # Database schemas and connection
