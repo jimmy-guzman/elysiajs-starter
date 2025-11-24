@@ -1,4 +1,4 @@
-import swagger from "@elysiajs/swagger";
+import swagger from "@elysiajs/openapi";
 import { Elysia } from "elysia";
 
 import { openapiDocumentation } from "@/config/openapi";
@@ -8,9 +8,12 @@ export const openAPI = new Elysia({ name: "open-api" })
   .use(
     swagger({
       path: "/docs",
-      exclude: ["/"],
+      exclude: {
+        paths: ["/"],
+      },
       documentation: {
         ...openapiDocumentation,
+        // @ts-expect-error TODO: fix
         components: await authOpenAPI.components,
         paths: await authOpenAPI.getPaths(),
       },
