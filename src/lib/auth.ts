@@ -4,13 +4,11 @@ import { magicLink, openAPI } from "better-auth/plugins";
 
 import { db } from "@/db";
 import * as schema from "@/db/schemas/auth";
+
 import { sendEmail } from "./email";
 import env from "./env";
 
 export const auth = betterAuth({
-  telemetry: {
-    enabled: false,
-  },
   basePath: "/auth",
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -18,15 +16,6 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-  },
-  socialProviders: {
-    ...(env.GITHUB_CLIENT_ID &&
-      env.GITHUB_CLIENT_SECRET && {
-        github: {
-          clientId: env.GITHUB_CLIENT_ID,
-          clientSecret: env.GITHUB_CLIENT_SECRET,
-        },
-      }),
   },
   plugins: [
     magicLink({
@@ -47,10 +36,35 @@ export const auth = betterAuth({
     }),
     openAPI({ path: "/docs" }),
   ],
+  socialProviders: {
+    ...(env.GITHUB_CLIENT_ID &&
+      env.GITHUB_CLIENT_SECRET && {
+        github: {
+          clientId: env.GITHUB_CLIENT_ID,
+          clientSecret: env.GITHUB_CLIENT_SECRET,
+        },
+      }),
+  },
+  telemetry: {
+    enabled: false,
+  },
 });
 
 export const authOpenAPI = {
-  // biome-ignore lint/suspicious/noExplicitAny: TODO: update with correct types
+  components: await auth.api.generateOpenAPISchema().then(({ components }) => ({
+    ...components,
+    securitySchemes: {
+      apiKeyCookie: {
+        ...components.securitySchemes.apiKeyCookie,
+        type: "apiKey" as const,
+      },
+      bearerAuth: {
+        ...components.securitySchemes.bearerAuth,
+        type: "http" as const,
+      },
+    },
+  })),
+  // oxlint-disable-next-line typescript/no-explicit-any -- needed for now
   getPaths: async (prefix = "/auth"): Promise<any> => {
     const { paths } = await auth.api.generateOpenAPISchema();
     const reference: typeof paths = Object.create(null);
@@ -73,19 +87,4 @@ export const authOpenAPI = {
 
     return reference;
   },
-  components: auth.api.generateOpenAPISchema().then(({ components }) => {
-    return {
-      ...components,
-      securitySchemes: {
-        apiKeyCookie: {
-          ...components.securitySchemes.apiKeyCookie,
-          type: "apiKey" as const,
-        },
-        bearerAuth: {
-          ...components.securitySchemes.bearerAuth,
-          type: "http" as const,
-        },
-      },
-    };
-  }),
 } as const;

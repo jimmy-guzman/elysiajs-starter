@@ -2,11 +2,11 @@ import { type Static, t } from "elysia";
 import { envSchema } from "env-schema";
 
 const schema = t.Object({
-  PORT: t.Number({ default: 3000 }),
+  BETTER_AUTH_SECRET: t.String(),
   DATABASE_URL: t.String(),
   GITHUB_CLIENT_ID: t.Optional(t.String()),
   GITHUB_CLIENT_SECRET: t.Optional(t.String()),
-  BETTER_AUTH_SECRET: t.String(),
+  PORT: t.Number({ default: 3000 }),
   RESEND_API_KEY: t.String(),
   RESEND_FROM_EMAIL: t.String(),
 });

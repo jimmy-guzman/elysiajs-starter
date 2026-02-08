@@ -12,7 +12,7 @@ export const tagsRoutes = new Elysia({
   .use(betterAuth)
   .get(
     "/",
-    async ({ query }) => {
+    ({ query }) => {
       const order = query.sort === "desc" ? desc(tags.name) : asc(tags.name);
 
       if (query.q) {
@@ -27,13 +27,13 @@ export const tagsRoutes = new Elysia({
     },
     {
       auth: true,
+      detail: {
+        summary: "List all tags with optional search and sort",
+      },
       query: t.Object({
         q: t.Optional(t.String()),
         sort: t.Optional(t.Enum({ asc: "asc", desc: "desc" })),
       }),
-      detail: {
-        summary: "List all tags with optional search and sort",
-      },
     },
   )
   .post(

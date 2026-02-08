@@ -12,10 +12,10 @@ import { tasksRoutes } from "./routes/tasks";
 const app = new Elysia()
   .use(
     cors({
-      origin: `http://localhost:${env.PORT}`,
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      origin: `http://localhost:${env.PORT}`,
     }),
   )
   .use(openAPI)
@@ -26,4 +26,5 @@ const app = new Elysia()
   .use(healthRoutes)
   .listen(env.PORT);
 
+// oxlint-disable-next-line no-console
 console.log(`🦊 Elysia is running at ${app.server?.url}`);

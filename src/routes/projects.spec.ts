@@ -4,18 +4,19 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { db } from "@/db";
 import { user } from "@/db/schemas/auth";
 import { projects } from "@/db/schemas/tasks";
+
 import { projectsRoutes } from "./projects";
 
-vi.mock("@/plugins/auth", () => {
-  const { Elysia } = require("elysia");
+vi.mock("@/plugins/auth", async () => {
+  const { Elysia } = await import("elysia");
 
   return {
     betterAuth: new Elysia().macro({
       auth: {
         resolve() {
           return {
-            user: { id: "user_123" },
             session: { id: "session_abc" },
+            user: { id: "user_123" },
           };
         },
       },
@@ -31,11 +32,11 @@ describe("GET /projects", () => {
     await db.delete(user);
 
     await db.insert(user).values({
-      id: "user_123",
-      name: "Test User",
+      createdAt: new Date(),
       email: "test@example.com",
       emailVerified: true,
-      createdAt: new Date(),
+      id: "user_123",
+      name: "Test User",
       updatedAt: new Date(),
     });
   });
@@ -66,9 +67,9 @@ describe("GET /projects", () => {
   it("should create a new project", async () => {
     const res = await app.handle(
       new Request("http://localhost/projects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: "test-project" }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
       }),
     );
 

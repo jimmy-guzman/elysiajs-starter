@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/lefthook.json",
+  "pre-commit": {
+    "parallel": true,
+    "commands": {
+      "fmt": {
+        "glob": "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}",
+        "run": "oxfmt {staged_files}",
+        "stage_fixed": true
+      },
+      "lint": {
+        "glob": "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx}",
+        "run": "oxlint --fix {staged_files}",
+        "stage_fixed": true
+      }
+    }
+  }
+}

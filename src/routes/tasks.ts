@@ -15,7 +15,7 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
   .use(betterAuth)
   .get(
     "/",
-    async ({ query, user }) => {
+    ({ query, user }) => {
       const where = and(
         eq(tasks.ownerId, user.id),
         query.projectId ? eq(tasks.projectId, query.projectId) : undefined,
@@ -31,14 +31,14 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
     },
     {
       auth: true,
-      query: t.Object({
-        projectId: t.Optional(t.String()),
-        parentId: t.Optional(t.Union([t.String(), t.Null()])),
-        status: t.Optional(statusSchema),
-      }),
       detail: {
         summary: "List all tasks for the current user",
       },
+      query: t.Object({
+        parentId: t.Optional(t.Union([t.String(), t.Null()])),
+        projectId: t.Optional(t.String()),
+        status: t.Optional(statusSchema),
+      }),
     },
   )
 
@@ -49,8 +49,8 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
         .insert(tasks)
         .values({
           ...body,
-          ownerId: user.id,
           dueAt: body.dueAt ? new Date(body.dueAt) : null,
+          ownerId: user.id,
         })
         .returning();
       return created;
@@ -58,12 +58,12 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
     {
       auth: true,
       body: t.Object({
-        projectId: t.String(),
-        parentId: t.Optional(t.String()),
-        title: t.String({ minLength: 1 }),
-        status: t.Optional(statusSchema),
-        priority: t.Optional(t.Number()),
         dueAt: t.Optional(t.String()),
+        parentId: t.Optional(t.String()),
+        priority: t.Optional(t.Number()),
+        projectId: t.String(),
+        status: t.Optional(statusSchema),
+        title: t.String({ minLength: 1 }),
       }),
       detail: {
         summary: "Create a new task",
@@ -125,11 +125,11 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
       auth: true,
       body: t.Partial(
         t.Object({
-          title: t.String(),
-          status: statusSchema,
-          priority: t.Number(),
-          dueAt: t.String(),
           completed: t.Boolean(),
+          dueAt: t.String(),
+          priority: t.Number(),
+          status: statusSchema,
+          title: t.String(),
         }),
       ),
       detail: {
@@ -178,7 +178,7 @@ export const tasksRoutes = new Elysia({ prefix: "/tasks", tags: ["Tasks"] })
         return { error: "not_found" };
       }
 
-      const values = body.tagIds.map((tagId) => ({ taskId: params.id, tagId }));
+      const values = body.tagIds.map((tagId) => ({ tagId, taskId: params.id }));
 
       await db.insert(taskTags).values(values).onConflictDoNothing();
 
