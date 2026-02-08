@@ -16,8 +16,8 @@ export const betterAuth = new Elysia({ name: "better-auth" })
         }
 
         return {
-          user: session.user,
           session: session.session,
+          user: session.user,
         };
       },
     },

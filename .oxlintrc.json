@@ -1,0 +1,55 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": null,
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error",
+    "style": "error",
+    "pedantic": "error",
+    "nursery": "error",
+    "restriction": "error"
+  },
+  "rules": {
+    "unicorn/no-null": "off",
+    "unicorn/no-nested-ternary": "off",
+    "typescript/consistent-type-imports": "off",
+    "typescript/explicit-module-boundary-types": "off",
+    "typescript/explicit-function-return-type": "off",
+    "new-cap": "off",
+    "no-ternary": "off",
+    "sort-imports": "off",
+    "no-nested-ternary": "off",
+    "no-magic-numbers": "off",
+    "max-statements": "off",
+    "func-style": "off",
+    "sort-keys": "off",
+    "id-length": "off",
+    "max-lines-per-function": "off",
+    "no-undef": "off",
+    "no-undefined": "off",
+    "no-rest-spread-properties": "off",
+    "no-async-await": "off",
+    "no-optional-chaining": "off"
+  },
+  "settings": {
+    "jsdoc": {
+      "ignorePrivate": false,
+      "ignoreInternal": false,
+      "ignoreReplacesDocs": true,
+      "overrideReplacesDocs": true,
+      "augmentsExtendsReplacesDocs": false,
+      "implementsReplacesDocs": false,
+      "exemptDestructuredRootsFromChecks": false,
+      "tagNamePreference": {}
+    },
+    "vitest": {
+      "typecheck": true
+    }
+  },
+  "env": {
+    "builtin": true
+  },
+  "globals": {},
+  "ignorePatterns": []
+}

@@ -12,9 +12,8 @@ export const projectsRoutes = new Elysia({
   .use(betterAuth)
   .get(
     "/",
-    async ({ user }) => {
-      return db.select().from(projects).where(eq(projects.ownerId, user.id));
-    },
+    ({ user }) =>
+      db.select().from(projects).where(eq(projects.ownerId, user.id)),
     {
       auth: true,
       detail: {
@@ -29,8 +28,8 @@ export const projectsRoutes = new Elysia({
       const [created] = await db
         .insert(projects)
         .values({
-          name: body.name,
           description: body.description,
+          name: body.name,
           ownerId: user.id,
         })
         .returning();
@@ -40,8 +39,8 @@ export const projectsRoutes = new Elysia({
     {
       auth: true,
       body: t.Object({
-        name: t.String({ minLength: 1 }),
         description: t.Optional(t.String()),
+        name: t.String({ minLength: 1 }),
       }),
       detail: {
         summary: "Create a new project",
@@ -102,8 +101,8 @@ export const projectsRoutes = new Elysia({
       auth: true,
       body: t.Partial(
         t.Object({
-          name: t.String({ minLength: 1 }),
           description: t.String(),
+          name: t.String({ minLength: 1 }),
         }),
       ),
       detail: {

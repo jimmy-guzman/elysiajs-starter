@@ -6,7 +6,7 @@ import * as authSchemas from "./src/db/schemas/auth";
 import * as tasksSchemas from "./src/db/schemas/tasks";
 
 async function mockDb() {
-  // use require to defeat dynamic require error
+  // Use require to defeat dynamic require error
   // (https://github.com/drizzle-team/drizzle-orm/issues/2853#issuecomment-2668459509)
   const { createRequire } =
     await vi.importActual<typeof import("node:module")>("node:module");
@@ -22,7 +22,8 @@ async function mockDb() {
 
   const { apply } = await pushSchema(
     { ...authSchemas, ...tasksSchemas },
-    // biome-ignore lint/suspicious/noExplicitAny: this is okay during tests
+
+    // oxlint-disable-next-line typescript/no-explicit-any -- this is okay during tests
     db as any,
   );
 

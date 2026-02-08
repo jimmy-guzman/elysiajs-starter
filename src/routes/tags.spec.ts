@@ -3,18 +3,19 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { db } from "@/db";
 import { tags } from "@/db/schemas/tasks";
+
 import { tagsRoutes } from "./tags";
 
-vi.mock("@/plugins/auth", () => {
-  const { Elysia } = require("elysia");
+vi.mock("@/plugins/auth", async () => {
+  const { Elysia } = await import("elysia");
 
   return {
     betterAuth: new Elysia().macro({
       auth: {
         resolve() {
           return {
-            user: { id: "user_123" },
             session: { id: "session_abc" },
+            user: { id: "user_123" },
           };
         },
       },
@@ -87,9 +88,9 @@ describe("GET /tags", () => {
   it("should create a new tag", async () => {
     const res = await app.handle(
       new Request("http://localhost/tags", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: "test-tag" }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
       }),
     );
 

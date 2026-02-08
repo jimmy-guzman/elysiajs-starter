@@ -1,6 +1,6 @@
 # ElysiaJS Starter
 
-> 🚀 A production-ready API starter with Elysia, Bun, Drizzle ORM, Neon, and built-in auth, email support, environment validation, and testing.
+> 🚀 A production-ready API starter with Elysia, Bun, OXC, Drizzle ORM, Neon, and built-in auth, email support, environment validation, and testing.
 
 ## 🐣 Features
 
@@ -13,7 +13,7 @@
 - 🛢️ [Neon][neon] for scalable, serverless Postgres with branching and edge support.
 - 📦 [env-schema][env-schema] for runtime-safe environment variable validation.
 - 🧪 [vitest][vitest] for fast unit testing.
-- 🩺 [Biome][biome] for linting + formatting in one tool.
+- 🩺 [OXC][oxc] for linting + formatting in one tool.
 - 🩺 [lefthook][lefthook] for lightning‑fast Git hooks.
 
 ## 🛠️ Installation
@@ -164,10 +164,10 @@ Your application will be available at:
 | `bun run db:migrate`    | Run database migrations                  |
 | `bun run db:push`       | Push schema changes to database          |
 | `bun run db:studio`     | Open Drizzle Studio                      |
-| `bun run lint`          | Lint code with Biome                     |
-| `bun run lint:fix`      | Lint and fix code with Biome             |
-| `bun run format`        | Format code with Biome                   |
-| `bun run format:fix`    | Format and fix code with Biome           |
+| `bun run lint`          | Lint code with OXC                       |
+| `bun run lint:fix`      | Lint and fix code with OXC               |
+| `bun run fmt`           | Format code with OXC                     |
+| `bun run fmt:fix`       | Format and fix code with OXC             |
 | `bun run typecheck`     | Check TypeScript types                   |
 
 ## 📁 Project Structure
@@ -182,8 +182,9 @@ Your application will be available at:
 │   └── index.ts           # Application entry point
 ├── docs/                  # Project documentation
 ├── drizzle.config.ts      # Database configuration
-├── biome.json             # Linting and formatting config
-├── lefthook.json          # Git hooks
+├── .oxcfmtrc.json         # Format config
+├── .oxclintrc.json        # Linting config
+├── .lefthook.json         # Git hooks
 └── package.json
 ```
 
@@ -200,7 +201,7 @@ Your application will be available at:
 [neon]: https://neon.tech
 [env-schema]: https://github.com/fastify/env-schema
 [vitest]: https://vitest.dev
-[biome]: https://biomejs.dev
+[oxc]: https://oxc.rs
 [lefthook]: https://github.com/evilmartians/lefthook
 
 <!-- references end -->
